@@ -2,6 +2,8 @@ import joblib
 import streamlit as st
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # Load the trained model and the StandardScaler object
@@ -25,7 +27,7 @@ with col1:
 
 
     # define the input fields
-    age = st.sidebar.slider("Age", min_value=16, max_value=90, value=16, step=1)
+    age = st.sidebar.number_input("Age", min_value=16, max_value=90, value= 16, step=1)
     gender = st.sidebar.selectbox("Gender", ("-", "Male", "Female"), index=0)
     polyuria = st.sidebar.selectbox("Polyuria", ("-", "Yes", "No"), index=0)
     polydipsia = st.sidebar.selectbox("Polydipsia", ("-", "Yes", "No"), index=0)
@@ -82,12 +84,41 @@ with col1:
             
             # Dispay the predictions
             if prediction[0, 1] > 0.5:
-                st.write("Positive - The patient has diabetes with a probability of", round(prediction[0, 1] * 100), "%")
+                st.write("Positive - The probability for the patient to have diabetes is", round(prediction[0, 1] * 100), "%")
             else:
-                st.write("Negative - The patient does not have diabetes with a probability of", round(prediction[0, 0] * 100), "%")
+                st.write("Negative - The probability for the patient to not have diabetes is", round(prediction[0, 0] * 100), "%")
 
 
 with col2:
     st.markdown("##### Machine learning model: Decision Tree Classifier")
     st.markdown("##### Model parameters:\n - criterion = 'entropy'\n - min_samples_split = 5")
     st.write("##### Accuracy on the test set: 98%")
+
+    
+    ft_cols = ['age',
+               'gender',
+               'polyuria',
+               'polydipsia',
+               'sudden_weight_loss',
+               'weakness',
+               'polyphagia',
+               'genital_thrush',
+               'visual_blurring',
+               'itching',
+               'irritability',
+               'delayed_healing',
+               'partial_paresis',
+               'muscle_stiffness',
+               'alopecia',
+               'obesity']
+    
+    importance = model.feature_importances_
+    df_importance = pd.DataFrame({'features': ft_cols, 'importance': importance})
+
+    fig =plt.figure(figsize=(10,6))
+    sns.barplot(x='importance', y='features', data=df_importance.sort_values(by='importance', ascending=False), orient='h')
+    plt.title('Feature Importance', fontsize=16)
+    plt.xlabel('Importance', fontsize=14)
+    plt.ylabel('Features', fontsize=14)
+    plt.tick_params(labelsize=12)
+    st.pyplot(fig)
