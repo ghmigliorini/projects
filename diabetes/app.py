@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler
 
 # Load the trained model and the StandardScaler object
 model = joblib.load('diabetes_DT_model.joblib')
@@ -90,14 +90,15 @@ with col1:
 
 
 with col2:
-    st.markdown("##### Machine learning model: Decision Tree Classifier")
-    st.markdown("##### Model parameters:\n - criterion = 'entropy'\n - min_samples_split = 5")
+    st.info(
+        "##### Machine learning model: *Decision Tree Classifier*\n"
+        "##### Best Model parameters:\n - criterion = 'entropy'")
     
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Accuracy", "98%")
+    col1.metric("Accuracy", "99%")
     col2.metric("Precision", "100%")
-    col3.metric("Recall", "97%")
-    col4.metric("F1-Score", "98%")
+    col3.metric("Recall", "98%")
+    col4.metric("F1-Score", "99%")
 
     
     ft_cols = ['age',
@@ -127,3 +128,4 @@ with col2:
     plt.ylabel('Features', fontsize=14)
     plt.tick_params(labelsize=12)
     st.pyplot(fig)
+    
