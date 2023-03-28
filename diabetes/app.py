@@ -92,7 +92,12 @@ with col1:
 with col2:
     st.markdown("##### Machine learning model: Decision Tree Classifier")
     st.markdown("##### Model parameters:\n - criterion = 'entropy'\n - min_samples_split = 5")
-    st.write("##### Accuracy on the test set: 98%")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Accuracy", "98%")
+    col2.metric("Precision", "100%")
+    col3.metric("Recall", "97%")
+    col4.metric("F1-Score", "98%")
 
     
     ft_cols = ['age',
