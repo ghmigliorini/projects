@@ -80,25 +80,26 @@ with col1:
             
 
             # Make predictions
-            prediction = model.predict_proba(df)
+            prediction = model.predict(df)
+            prediction_prob = model.predict_proba(df)
             
             # Dispay the predictions
-            if prediction[0, 1] > 0.5:
-                st.write("Positive - The probability for the patient to have diabetes is", round(prediction[0, 1] * 100), "%")
+            if prediction[0] == 1:
+                st.write("Positive - The probability for the patient to have diabetes is", round(prediction_prob[0, 1] * 100, 1), "%")
             else:
-                st.write("Negative - The probability for the patient to not have diabetes is", round(prediction[0, 0] * 100), "%")
+                st.write("Negative - The probability for the patient to not have diabetes is", round(prediction_prob[0, 0] * 100, 1), "%")
 
 
 with col2:
     st.info(
-        "##### Machine learning model: *Decision Tree Classifier*\n"
-        "##### Best Model parameters:\n - criterion = 'entropy'")
+        "##### Machine learning model: *Random Forest Classifier*\n"
+        "##### Best Model parameters:\n - max_depth=10")
     
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Accuracy", "99%")
+    col1.metric("Accuracy", "100%")
     col2.metric("Precision", "100%")
-    col3.metric("Recall", "98%")
-    col4.metric("F1-Score", "99%")
+    col3.metric("Recall", "100%")
+    col4.metric("F1-Score", "100%")
 
     
     ft_cols = ['age',
